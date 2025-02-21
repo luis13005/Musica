@@ -1,11 +1,15 @@
 package com.spotify.music.principal;
 
+import com.spotify.music.repository.RepositoryArtista;
+
 import java.util.Scanner;
+
+import static com.spotify.music.models.Artista.cadastrarArtista;
 
 public class Principal {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void Exibe(){
+    public static void Exibe(RepositoryArtista repositoryArtista){
 
         var opcao = 0;
 
@@ -26,7 +30,7 @@ public class Principal {
             opcao = scanner.nextInt();
             switch (opcao){
                 case 1:
-
+                    cadastrarArtista(repositoryArtista);
                     break;
                 case 2:
                     break;
