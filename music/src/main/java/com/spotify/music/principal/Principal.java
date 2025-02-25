@@ -1,8 +1,12 @@
 package com.spotify.music.principal;
 
+import com.spotify.music.models.Artista;
+import com.spotify.music.models.Musica;
 import com.spotify.music.repository.RepositoryArtista;
 import com.spotify.music.repository.RepositoryMusica;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static com.spotify.music.models.Artista.cadastrarArtista;
@@ -31,6 +35,7 @@ public class Principal {
                     9- Sair
                     """);
             opcao = scanner.nextInt();
+            scanner.nextLine();
             switch (opcao){
                 case 1:
                     cadastrarArtista(repositoryArtista);
@@ -39,8 +44,10 @@ public class Principal {
                     cadastrarMusica(repositoryMusica,repositoryArtista);
                     break;
                 case 3:
+                    listaTodasMusicas(repositoryMusica);
                     break;
                 case 4:
+                    listaMusicasPorArtistas(repositoryArtista);
                     break;
                 case 5:
                     break;
@@ -51,5 +58,23 @@ public class Principal {
                     System.out.println("Digite uma Opção válida.");
             }
         }
+    }
+
+    private static void listaMusicasPorArtistas(RepositoryArtista repositoryArtista) {
+        System.out.println("Digite o Artista: ");
+        var artistaNome = scanner.nextLine();
+        if(artistaNome.length() > 0){
+            Artista artista = repositoryArtista.consultaArtistas(artistaNome);
+
+            Optional<Musica> musicaOptional = repositoryArtista.consultaMusicasPorArtista(artista);
+            if (musicaOptional.isPresent()){
+                musicaOptional.stream().forEach(System.out::println);
+            }
+        }
+    }
+
+    private static void listaTodasMusicas(RepositoryMusica repositoryMusica) {
+        List<Musica> musicaList = repositoryMusica.consultaTodasMusicas();
+        musicaList.stream().forEach(System.out::println);
     }
 }

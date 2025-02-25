@@ -45,6 +45,10 @@ public class Musica {
         this.artista = artista;
     }
 
+    @Override
+    public String toString() {
+        return this.nome+" / "+this.artista;
+    }
 
     public static void cadastrarMusica(RepositoryMusica repositoryMusica, RepositoryArtista repositoryArtista){
         System.out.println("Digite o nome da Musica: ");

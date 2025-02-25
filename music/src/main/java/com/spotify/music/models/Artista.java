@@ -12,6 +12,7 @@ public class Artista {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long artistaId;
     private String nome;
+    @Enumerated(EnumType.STRING)
     private TipoArtista tipoArtista;
     @OneToMany(mappedBy = "musicaId",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Musica> musicas;
