@@ -36,7 +36,7 @@ public class Principal {
                     cadastrarArtista(repositoryArtista);
                     break;
                 case 2:
-                    cadastrarMusica(repositoryMusica);
+                    cadastrarMusica(repositoryMusica,repositoryArtista);
                     break;
                 case 3:
                     break;
