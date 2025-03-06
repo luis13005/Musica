@@ -4,6 +4,7 @@ import com.spotify.music.models.Artista;
 import com.spotify.music.models.Musica;
 import com.spotify.music.repository.RepositoryArtista;
 import com.spotify.music.repository.RepositoryMusica;
+import com.spotify.music.service.ConsultaChatGPT;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,7 @@ public class Principal {
                     listaMusicasPorArtistas(repositoryArtista);
                     break;
                 case 5:
+                    sobreArtista();
                     break;
                 case 9:
                     System.out.println("Tchau!!");
@@ -58,6 +60,15 @@ public class Principal {
                     System.out.println("Digite uma Opção válida.");
             }
         }
+    }
+
+    private static void sobreArtista() {
+        System.out.println("Qual artista vocçê deseja saber sobre: ");
+        String artistaNome = scanner.nextLine();
+
+        String dadosArtista = ConsultaChatGPT.Consultar(artistaNome);
+
+        System.out.println(dadosArtista);
     }
 
     private static void listaMusicasPorArtistas(RepositoryArtista repositoryArtista) {
