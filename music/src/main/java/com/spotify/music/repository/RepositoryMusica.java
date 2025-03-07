@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RepositoryMusica extends JpaRepository<Musica, Long> {
-    @Query("Select a From Artista a")
-    List<Artista> consultaTodosArtistas();
     @Query("Select m From Musica m")
     List<Musica> consultaTodasMusicas();
 }

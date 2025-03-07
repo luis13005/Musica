@@ -54,7 +54,7 @@ public class Musica {
         System.out.println("Digite o nome da Musica: ");
         var musicaNome = scanner.nextLine();
 
-        List<Artista> artistaList = repositoryMusica.consultaTodosArtistas();
+        List<Artista> artistaList = repositoryArtista.findAll();
         artistaList.stream().forEach(System.out::println);
 
         System.out.println("Digite o nome do Artista/Banda ou Dupla: ");
