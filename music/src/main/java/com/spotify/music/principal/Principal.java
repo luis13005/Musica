@@ -72,7 +72,6 @@ public class Principal {
         String artistaNome = scanner.nextLine();
 
         Optional<Artista> optionalArtista = repositoryArtista.consultaArtistas(artistaNome);
-        System.out.println(optionalArtista);
         if (optionalArtista.isPresent()) {
             optionalArtista.get().getMusicas().stream().forEach(System.out::println);
         }
