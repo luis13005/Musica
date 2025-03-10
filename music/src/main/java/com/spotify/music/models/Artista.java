@@ -3,6 +3,7 @@ package com.spotify.music.models;
 import com.spotify.music.repository.RepositoryArtista;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,8 +15,8 @@ public class Artista {
     private String nome;
     @Enumerated(EnumType.ORDINAL)
     private TipoArtista tipoArtista;
-    @OneToMany(mappedBy = "musicaId",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<Musica> musicas;
+    @OneToMany(mappedBy = "artista",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Musica> musicas = new ArrayList<>();
 
     Artista(){
 
@@ -43,9 +44,17 @@ public class Artista {
         this.tipoArtista = tipoArtista;
     }
 
+    public List<Musica> getMusicas() {
+        return musicas;
+    }
+
+    public void setMusicas(Musica musica) {
+        this.musicas.add(musica);
+    }
+
     @Override
     public String toString() {
-        return "ID: "+this.artistaId+" Nome: "+this.nome+" Tipo: "+this.tipoArtista;
+        return "ID: "+this.artistaId+" Nome: "+this.nome+" Tipo: "+this.tipoArtista+" Músicas: "+this.musicas;
     }
 
     public static void cadastrarArtista(RepositoryArtista repositoryArtista){

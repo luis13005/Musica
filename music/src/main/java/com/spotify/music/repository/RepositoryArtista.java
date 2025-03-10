@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface RepositoryArtista extends JpaRepository<Artista,Long> {
     @Query("Select a From Artista a where a.nome ilike %:artistaNome%")
-    Artista consultaArtistas(String artistaNome);
+    Optional<Artista> consultaArtistas(String artistaNome);
     @Query("Select m From Artista a Join Musica m On a = m.artista where a = :artista")
     Optional<Musica> consultaMusicasPorArtista(Artista artista);
 }

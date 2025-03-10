@@ -33,6 +33,8 @@ public class Principal {
                     
                     5- Pesquisar dados sobre um artista
                     
+                    6 - Listar músicas por artista
+                    
                     9- Sair
                     """);
             opcao = scanner.nextInt();
@@ -42,7 +44,7 @@ public class Principal {
                     cadastrarArtista(repositoryArtista);
                     break;
                 case 2:
-                    cadastrarMusica(repositoryMusica,repositoryArtista);
+                    cadastrarMusica(repositoryArtista);
                     break;
                 case 3:
                     listaTodasMusicas(repositoryMusica);
@@ -53,12 +55,26 @@ public class Principal {
                 case 5:
                     sobreArtista();
                     break;
+                case 6:
+                    listarMusicasArtista(repositoryArtista);
+                    break;
                 case 9:
                     System.out.println("Tchau!!");
                     break;
                 default:
                     System.out.println("Digite uma Opção válida.");
             }
+        }
+    }
+
+    private static void listarMusicasArtista(RepositoryArtista repositoryArtista) {
+        System.out.println("Qual artista: ");
+        String artistaNome = scanner.nextLine();
+
+        Optional<Artista> optionalArtista = repositoryArtista.consultaArtistas(artistaNome);
+        System.out.println(optionalArtista);
+        if (optionalArtista.isPresent()) {
+            optionalArtista.get().getMusicas().stream().forEach(System.out::println);
         }
     }
 
@@ -75,9 +91,9 @@ public class Principal {
         System.out.println("Digite o Artista: ");
         var artistaNome = scanner.nextLine();
         if(artistaNome.length() > 0){
-            Artista artista = repositoryArtista.consultaArtistas(artistaNome);
+            Optional<Artista> optionalArtista = repositoryArtista.consultaArtistas(artistaNome);
 
-            Optional<Musica> musicaOptional = repositoryArtista.consultaMusicasPorArtista(artista);
+            Optional<Musica> musicaOptional = repositoryArtista.consultaMusicasPorArtista(optionalArtista.get());
             if (musicaOptional.isPresent()){
                 musicaOptional.stream().forEach(System.out::println);
             }
@@ -85,7 +101,7 @@ public class Principal {
     }
 
     private static void listaTodasMusicas(RepositoryMusica repositoryMusica) {
-        List<Musica> musicaList = repositoryMusica.consultaTodasMusicas();
+        List<Musica> musicaList = repositoryMusica.findAll();
         musicaList.stream().forEach(System.out::println);
     }
 }

@@ -5,6 +5,7 @@ import com.spotify.music.repository.RepositoryMusica;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 @Entity
@@ -15,7 +16,6 @@ public class Musica {
     private Long musicaId;
     private String nome;
     @ManyToOne
-    @JoinColumn(name = "artistaId",nullable = false)
     private Artista artista;
 
     private static Scanner scanner = new Scanner(System.in);
@@ -47,26 +47,32 @@ public class Musica {
 
     @Override
     public String toString() {
-        return this.nome+" / "+this.artista;
+        return this.nome;
     }
 
-    public static void cadastrarMusica(RepositoryMusica repositoryMusica, RepositoryArtista repositoryArtista){
+    public static void cadastrarMusica( RepositoryArtista repositoryArtista){
         System.out.println("Digite o nome da Musica: ");
         var musicaNome = scanner.nextLine();
 
-        List<Artista> artistaList = repositoryArtista.findAll();
-        artistaList.stream().forEach(System.out::println);
+        try {
+            List<Artista> artistaList = repositoryArtista.findAll();
+            artistaList.stream().forEach(System.out::println);
+        } catch (StackOverflowError e) {
+            System.out.println(e.getMessage());
+        }
 
         System.out.println("Digite o nome do Artista/Banda ou Dupla: ");
         var artistaNome = scanner.nextLine();
 
-        Artista artista = repositoryArtista.consultaArtistas(artistaNome);
-
-        System.out.println(artista);
+        Optional<Artista> optionalArtista = repositoryArtista.consultaArtistas(artistaNome);
+        System.out.println(optionalArtista.get());
 
         try {
-            Musica musica = new Musica(musicaNome,artista);
-            repositoryMusica.save(musica);
+            Musica musica = new Musica(musicaNome,optionalArtista.get());
+
+            optionalArtista.get().getMusicas().add(musica);
+
+            repositoryArtista.save(optionalArtista.get());
         } catch (Exception e) {
             System.out.println(e.getMessage());;
         }
